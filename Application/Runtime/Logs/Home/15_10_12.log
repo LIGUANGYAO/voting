@@ -1,0 +1,23 @@
+[ 2015-10-12T09:18:42+08:00 ] 127.0.0.1 /voting/
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.015637s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.009364s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.009571s ]
+SQL: SHOW COLUMNS FROM `vote_user` [ RunTime:0.0504s ]
+SQL: SHOW COLUMNS FROM `vote_user` [ RunTime:0.0046s ]
+SQL: SELECT * FROM `vote_user` LIMIT 0,10   [ RunTime:0.0005s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000107s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000265s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.057283s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.057509s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001057s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001207s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.019088s ]
+INFO: [ app_end ] --END-- [ RunTime:0.019240s ]
+

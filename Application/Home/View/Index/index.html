@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>voting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="/favicon.ico" rel="Shortcut Icon"/>
+<link href="/favicon.ico" rel="Bookmark"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}style.css" type="text/css">
+</head>
+<body>
+<a href="#">退出</a>
+<div class="m-page">
+	<div class="sort-title">
+		<ul class="clearfix">
+			<input type="hidden" name="action" id="action" value="{$action}">
+			<li>
+				<a href="all.html">全部<i></i></a>
+			</li>
+			<li>
+				<a href="count.html">按票数<i></i></a>
+			</li>
+			<li>
+				<a href="sex.html">按性别<i></i></a>
+			</li>
+		</ul>
+	</div>
+	<div class="sort-list">
+		<ul id="add">
+		<foreach name="resut" item="vo">
+			<li>
+				<input type="hidden" name="userid" class="userid" value="{$vo.id}" />
+				<div class="sort-num">当前票数：{$vo.vote_count}</div>
+				<div class="sort-main clearfix">
+					<div class="left">
+						<a href="#">
+							<img src="{$vo.photo}" width="105" title="{$vo.real_name}" alt="{$vo.real_name}">
+						</a>
+					</div>
+					<div class="right">
+						<a href="detail-{$vo.id}.html">
+							<h3>{$vo.real_name}<span><if condition="$vo.sex eq 1">男<else/>女</if></span></h3>	
+							<p>{$vo.college}<span>{$vo.class}</span></p>
+						</a>
+						<a class="vote-btn" href="###">投票</a>
+					</div>
+					<a class="detail-btn" href="detail-{$vo.id}.html"></a>
+				</div>
+			</li>
+		</foreach>
+		</ul>
+        <a class="more-btn" href="###" id="get_more" onclick="loadmore(this)" >查看更多</a>
+	</div>
+</div>
+<script type="text/javascript" src="{$Think.const.ADMIN_JS_URL}jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="{$Think.const.ADMIN_JS_URL}jquery.cookie.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('ul').on('click','.vote-btn',function(){
+			var userid = $(this).parent().parent().siblings('.userid').val();
+			var count = $(this).parent().parent().siblings('.sort-num');
+			$.ajax({
+				type:'post',
+				url:'vote',
+				data:{userid:userid},
+				dataType:'json',
+				success:function(data){
+					if(data.msg=='投票成功！'){
+						count.html('当前票数：'+data.count);
+						alert(data.msg);
+					}else{
+						alert(data.msg);
+					}
+				},
+				error:function(data,e){
+					alert('数据出错了！');
+				}
+			});
+		});
+
+		if ($.cookie("current")!= null){
+	    	var num = $.cookie("current");
+	    	$('.sort-title').find('li').eq(num).addClass('active');
+    	}
+		$('.sort-title').find('li').click(function(){
+			var index = $('.sort-title').find('li').index(this);
+			$.cookie("current", index);
+			$(this).addClass('active');
+			$('.active').removeClass('active');
+		});
+	});
+
+		var isloader = false;
+    	var pageindex=1;
+   		var pagesize=10;
+		function loadmore(btn){
+			if(isloader){
+				return;
+			}
+			isloader = true;
+			var action=$('#action').val();
+	        pageindex++;
+	        var loader = "<img src='/public/images/loader.gif' alt=''/>";
+	        $(btn).html(loader);
+	        $.ajax({
+	            type: "post",
+	            url: "index",
+	            data: {action:action, pageindex:pageindex, pagesize:pagesize},
+	           	dataType: "json",
+	            success: function(data){
+	            	isloader=false;
+	        		$(btn).html("加载更多");
+	                if(data==0){
+	                	isloader=true;
+	                    $(btn).html("没有更多了");
+	                }
+	                insertHtml(data);
+	            },
+	            error:function(data,err){
+	                isloader=false;
+	                alert('数据有误了！');
+	                $(btn).html("加载中...");
+	            }
+	        });
+		}
+
+		function insertHtml(arr){
+			var parentdiv = $('.sort-list>ul');
+	        for(var i=0;i<arr.length;i++){
+	        	var openDiv = $('<li></li>').appendTo($('#add'));
+	        	//var openDiv = document.createElement("li");
+	            strHtml="<input type=\"hidden\" name=\"userid\" class=\"userid\" value=\""+arr[i]['id']+"\" /><div class=\"sort-num\">当前票数："+arr[i]['vote_count']+"</div><div class=\"sort-main clearfix\"><div class=\"left\"><a href=\"###\"><img src=\""+arr[i]['photo']+"\" title=\""+arr[i]['real_name']+"\" alt=\""+arr[i]['real_name']+"\"></a></div><div class=\"right\"><a href=\"detail-"+arr[i]['id']+".html\"><h3>"+arr[i]['real_name']+"<span>";
+				if(arr[i]['sex']==1){
+				    strHtml+= "男";
+				}else{
+				    strHtml+= "女";
+				} 
+				strHtml+="</span></h3><p>"+arr[i]['college']+"<span>"+arr[i]['class']+"</span></p></a><a class=\"vote-btn\" href=\"###\">投票</a></div><a class=\"detail-btn\" href=\"detail-"+arr[i]['id']+".html\"></a></div>";
+	            openDiv.html(strHtml);
+	        }
+   		}
+</script>
+</body>
+</html>

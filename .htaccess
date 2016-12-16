@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+  #Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+
+  #RewriteCond %{HTTP_HOST} ^voting.com [NC]
+  #RewriteRule ^(.*)$ http://voting.com/$1 [R=301,NC,L]
+
+  #RewriteRule ^(.*)login\.html$ login.html [R=301,PT,L]
+
+  RewriteRule ^index\.php(.*)$ /index.php/$1 [L]
+  RewriteRule ^all.html$ /index.php/Home/Index/index/action/ [L]
+  RewriteRule ^count.html$ /index.php/Home/Index/index/action/count [L]
+  RewriteRule ^sex.html$ /index.php/Home/Index/index/action/sex [L]
+  RewriteRule ^detail-(\d+)\.html$ /index.php/Home/Index/detail/id/$1 [L]
+  RewriteRule ^alert\.html$ /index.php/Home/Index/alert [L]
+  RewriteRule ^alert-count\.html$ /index.php/Home/Index/alert/action/count [L]
+  RewriteRule ^alert-sex\.html$ /index.php/Home/Index/alert/action/sex [L]
+  RewriteRule ^alert-(\d+)-opration-(\w+)\.html$ /index.php/Home/index/insert/id/$1/opration/$2 [L]
+  RewriteRule ^index$ /index.php/Home/index/index [L]
+  RewriteRule ^vote$ /index.php/Home/index/vote [L]
+  RewriteRule ^addpic$ /index.php/Home/index/addpic [L]
+  RewriteRule ^login.html$ /index.php/Home/user/login [L]
+  RewriteRule ^insert\.html$ /index.php/Home/index/insert [L]
+</IfModule>

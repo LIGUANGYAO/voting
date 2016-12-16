@@ -1,0 +1,42 @@
+[ 2015-10-26T23:22:23+08:00 ] 127.0.0.1 /sex.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.305018s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.054003s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.056003s ]
+SQL: SHOW COLUMNS FROM `vote_user` [ RunTime:1.9211s ]
+SQL: SHOW COLUMNS FROM `vote_user` [ RunTime:0.0140s ]
+SQL: SELECT * FROM `vote_user` ORDER BY sex asc LIMIT 0,10   [ RunTime:0.1760s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.001000s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.001000s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:1.383079s ]
+INFO: [ view_parse ] --END-- [ RunTime:1.385079s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.148009s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.149009s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.039002s ]
+INFO: [ app_end ] --END-- [ RunTime:0.041002s ]
+
+[ 2015-10-26T23:47:03+08:00 ] 127.0.0.1 /vote
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.018002s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005001s ]
+SQL: SHOW COLUMNS FROM `vote_clientip` [ RunTime:0.3490s ]
+SQL: SHOW COLUMNS FROM `vote_clientip` [ RunTime:0.0140s ]
+SQL: SELECT * FROM `vote_clientip` WHERE ( ip='127.0.0.1' and date='2015-10-26' and userid='34' ) LIMIT 1   [ RunTime:0.0530s ]
+SQL: INSERT INTO `vote_clientip` (`ip`,`date`,`userid`) VALUES ('127.0.0.1','2015-10-26','34') [ RunTime:0.0940s ]
+SQL: SHOW COLUMNS FROM `vote_user` [ RunTime:0.0170s ]
+SQL: SHOW COLUMNS FROM `vote_user` [ RunTime:0.0140s ]
+SQL: UPDATE `vote_user` SET `vote_count`=vote_count+1 WHERE ( id=34 ) [ RunTime:0.1140s ]
+SQL: SELECT `vote_count` FROM `vote_user` WHERE ( id=34 ) LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.004000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
